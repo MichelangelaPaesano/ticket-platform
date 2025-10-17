@@ -2,8 +2,6 @@ package com.example.ticket_platform.model;
 
 import java.time.LocalDate;
 
-import jakarta.validation.constraints.NotNull;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Entity;
@@ -13,6 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Ticket {
@@ -85,7 +84,21 @@ public class Ticket {
         this.status = status;
     }
 
+    public Categoria getCategoria() {
+        return categoria;
+    }
 
+    public void setCategoria (Categoria categoria) {
+        this.categoria = categoria;
+    }
+
+    public Operator getOperator () {
+        return operator;
+    }
+
+    public void setOperator (Operator operator) {
+        this.operator = operator;
+    }
 
 
 }

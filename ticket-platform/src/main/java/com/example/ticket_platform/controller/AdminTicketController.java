@@ -88,7 +88,7 @@ public class AdminTicketController {
     }
 
     @PostMapping("/edit/{id}")
-    public String update (@Valid @ModelAttribute ("ticket") Ticket formTicket,
+    public String update (@PathVariable("id") Integer id, @Valid @ModelAttribute ("ticket") Ticket formTicket,
                         BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             return "admin/create";
@@ -97,8 +97,7 @@ public class AdminTicketController {
         Optional<Ticket> optTicket = repository.findById(id);
         if (optTicket.isPresent()) {
             repository.save(formTicket);
-            redirectAttributes.addFlashAttribute("successMessage", "Ticket modificato con successo");
-           
+            redirectAttributes.addFlashAttribute("successMessage", "Ticket modificato con successo");  
         }
         return "redirect:/admin/tickets";
         
