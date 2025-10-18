@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.ticket_platform.model.Ticket;
+import com.example.ticket_platform.repository.CategoriaRepository;
+import com.example.ticket_platform.repository.OperatorRepository;
 import com.example.ticket_platform.repository.TicketRepository;
 
 import jakarta.validation.Valid;
@@ -32,6 +34,13 @@ public class AdminTicketController {
     private TicketRepository repository;
     //per adesso inietto tolo ticket repository perchè credo che debba lavorare solo su quella per ora!!!
 
+    @Autowired
+    private CategoriaRepository catRepository;
+
+    @Autowired
+    private OperatorRepository opRepository;
+    
+    
     //Questo Get Mapping serve per la lettura della lista dei ticket 
     @GetMapping("/")
     public String index (Model model) {
@@ -57,6 +66,8 @@ public class AdminTicketController {
     @GetMapping("/create")
     public String create (Model model) {
         model.addAttribute("ticket", new Ticket());
+        model.addAttribute("categorie", catRepository.findAll());
+        model.addAttribute("operatori", opRepository.findAll());
         return "admin/create";
     }
 
@@ -81,6 +92,8 @@ public class AdminTicketController {
         if (optTicket.isPresent()) {
         Ticket ticket = optTicket.get();
         model.addAttribute("ticket", ticket);
+        model.addAttribute("categorie", catRepository.findAll());
+        model.addAttribute("operatori", opRepository.findAll());
         return "admin/edit";
         } else {
             return "redirect:/admin/tickets";
@@ -102,6 +115,18 @@ public class AdminTicketController {
         return "redirect:/admin/tickets";
         
     }
+
+    //post mapping per cancellazione 
+       //metodo per delete 
+    @PostMapping("/delete/{id}")
+    public String delete (@PathVariable("id") Integer id) {
+        repository.deleteById(id);
+        
+        return "redirect:/";
+    }
+
+
+
     
     
     

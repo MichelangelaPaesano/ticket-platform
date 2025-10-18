@@ -1,10 +1,12 @@
 package com.example.ticket_platform.model;
-
 import java.time.LocalDate;
 
+import com.example.ticket_platform.model.TicketStatus.ticketStatus;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -20,17 +22,18 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotBlank
+    @NotBlank(message="Il titolo è obbligatorio")
     private String title;
 
-    @NotBlank
+    @NotBlank(message="La descrizione è obbligatoria")
     private String description;
 
-    @NotNull
+    @NotNull(message="La data è obbligatoria")
     private LocalDate creationDate;
     
-    @NotBlank
-    private String status;
+    @NotNull(message="Lo stato è obbligatorio")
+    @Enumerated(EnumType.STRING)
+    private ticketStatus status;
    
     
     
@@ -76,11 +79,11 @@ public class Ticket {
         this.creationDate = creationDate;
     }
 
-    public String getStatus () {
+    public ticketStatus getStatus () {
         return status;
     }
 
-    public void setStatus (String status) {
+    public void setStatus (ticketStatus status) {
         this.status = status;
     }
 
