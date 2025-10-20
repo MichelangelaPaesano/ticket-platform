@@ -2,7 +2,6 @@ package com.example.ticket_platform.model;
 import java.time.LocalDate;
 
 import com.example.ticket_platform.model.TicketStatus.ticketStatus;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -28,7 +27,6 @@ public class Ticket {
     @NotBlank(message="La descrizione è obbligatoria")
     private String description;
 
-    @NotNull(message="La data è obbligatoria")
     private LocalDate creationDate;
     
     @NotNull(message="Lo stato è obbligatorio")
@@ -39,12 +37,12 @@ public class Ticket {
     
     @ManyToOne
     @JoinColumn(name = "categoria_id", nullable = false)
-    @JsonBackReference
+    @NotNull
     private Categoria categoria;
 
     @ManyToOne
     @JoinColumn(name = "operator_id", nullable = false)
-    @JsonBackReference
+    @NotNull
     private Operator operator;
 
     public Integer getId() {

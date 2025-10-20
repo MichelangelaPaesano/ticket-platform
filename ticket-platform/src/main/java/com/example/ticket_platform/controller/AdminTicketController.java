@@ -1,5 +1,7 @@
 package com.example.ticket_platform.controller;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.ticket_platform.model.Operator;
 import com.example.ticket_platform.model.Ticket;
 import com.example.ticket_platform.repository.CategoriaRepository;
 import com.example.ticket_platform.repository.OperatorRepository;
@@ -67,21 +70,53 @@ public class AdminTicketController {
     public String create (Model model) {
         model.addAttribute("ticket", new Ticket());
         model.addAttribute("categorie", catRepository.findAll());
-        model.addAttribute("operatori", opRepository.findAll());
+        //Ci servono solo gli operatori disponibili
+        List<Operator> tutti = opRepository.findAll();
+        List<Operator> operatoriDisponibili = new ArrayList<>();
+        for (Operator o : tutti) {
+            o.disponibilita(); // aggiorna il flag dinamico
+            if (o.isDisponibile()) {
+                operatoriDisponibili.add(o);
+            }
+        }
+
+        // Passo la lista filtrata al model
+        model.addAttribute("operatori", operatoriDisponibili);
+
         return "admin/create";
     }
 
     @PostMapping("/create")
     public String save (@Valid @ModelAttribute("ticket") Ticket formTicket, 
                         BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
+        
+        if (formTicket.getCreationDate() == null) {
+        formTicket.setCreationDate(LocalDate.now());
+        }
+        
         //controlliamo con binding result se ci sono errori 
         if (bindingResult.hasErrors()) {
+            model.addAttribute("categorie", catRepository.findAll());
+
+            List<Operator> tutti = opRepository.findAll();
+            List<Operator> operatoriDisponibili = new ArrayList<>();
+            for (Operator o : tutti) {
+                o.disponibilita();   // aggiorna il flag
+                if (o.isDisponibile()) {
+                operatoriDisponibili.add(o);
+            }
+        }
+
+            // 3. Passo al model la lista filtrata
+            model.addAttribute("operatori", operatoriDisponibili);
+
             return "admin/create";
         }
+        
         repository.save(formTicket);
         //e mostriamo un messaggio di salvataggio
         redirectAttributes.addFlashAttribute("successMessage", "Ticket creato con successo");
-        return "redirect:/admin/tickets";
+        return "redirect:/admin/tickets/";
     }
 
 
@@ -96,7 +131,7 @@ public class AdminTicketController {
         model.addAttribute("operatori", opRepository.findAll());
         return "admin/edit";
         } else {
-            return "redirect:/admin/tickets";
+            return "redirect:/admin/tickets/";
         }
     }
 
@@ -104,7 +139,9 @@ public class AdminTicketController {
     public String update (@PathVariable("id") Integer id, @Valid @ModelAttribute ("ticket") Ticket formTicket,
                         BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            return "admin/create";
+            model.addAttribute("categorie", catRepository.findAll());
+            model.addAttribute("operatori", opRepository.findAll());
+            return "admin/edit";
         }
         //ci assicuriamo che l'id esista!
         Optional<Ticket> optTicket = repository.findById(id);
@@ -117,12 +154,12 @@ public class AdminTicketController {
     }
 
     //post mapping per cancellazione 
-       //metodo per delete 
+    //metodo per delete 
     @PostMapping("/delete/{id}")
     public String delete (@PathVariable("id") Integer id) {
         repository.deleteById(id);
         
-        return "redirect:/";
+        return "redirect:/admin/tickets";
     }
 
 

@@ -39,20 +39,23 @@
 
                 <div class="mb-3">
                     <label class="form-label">Categoria</label>
-                    <select class="form-select" th:field="*{categoria}">
-                        <option th:each="cat : ${categorie}"
-                                th:value="${cat}"
-                                th:text="${cat.name}">
-                        </option>
+                    <select class="form-select" th:field="*{categoria.id}">
+                        <!-- Placeholder / opzione iniziale -->
+                        <option value="" disabled selected>Seleziona una categoria</option>
+                        
+                        <!-- Opzioni generate dal database -->
+                        <option th:each="cat : ${categorie}" th:value="${cat.id}" th:text="${cat.name}"></option>
                     </select>
                     <div class="text-danger mt-1" th:errors="*{categoria}"></div>
                 </div>
 
+
                 <div class="mb-3">
                     <label class="form-label">Operatore</label>
-                    <select class="form-select" th:field="*{operator}">
+                    <select class="form-select" th:field="*{operator.id}">
+                        <option value="" disabled selected>Seleziona un operatore</option>
                         <option th:each="op : ${operatori}"
-                                th:value="${op}"
+                                th:value="${op.id}"
                                 th:text="${op.name}">
                         </option>
                     </select>
@@ -71,7 +74,7 @@
 
                 <div class="text-center mt-4">
                     <button type="submit" class="btn btn-primary">Crea Ticket</button>
-                    <a href="/admin/tickets" class="btn btn-secondary">Annulla</a>
+                    <a href="/admin/tickets/" class="btn btn-danger">Annulla</a>
                 </div>
 
             </form>
