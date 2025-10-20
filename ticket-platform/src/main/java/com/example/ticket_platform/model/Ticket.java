@@ -1,5 +1,6 @@
 package com.example.ticket_platform.model;
 import java.time.LocalDate;
+import java.util.List;
 
 import com.example.ticket_platform.model.TicketStatus.ticketStatus;
 
@@ -11,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -44,6 +46,9 @@ public class Ticket {
     @JoinColumn(name = "operator_id", nullable = false)
     @NotNull
     private Operator operator;
+
+    @OneToMany(mappedBy = "ticket")
+    private List<Note> note;
 
     public Integer getId() {
         return id;
@@ -99,6 +104,14 @@ public class Ticket {
 
     public void setOperator (Operator operator) {
         this.operator = operator;
+    }
+
+    public List<Note> getNote () {
+        return note;
+    }
+
+    public void setNote (List<Note> note) {
+        this.note = note;
     }
 
 
