@@ -20,8 +20,8 @@
             <hr />
 
             <!--creiamo il form per la creazione di un nuovo ticket!-->
-            <form id="ticket-form" th:object="${ticket}" th:action="@{/admin/tickets/edit}" method="post">
-
+            <form id="ticket-form" th:object="${ticket}" th:action="@{/admin/tickets/edit/{id}(id=${ticket.id})}" method="post">
+                <input type="hidden" th:field="*{id}" />
            
                 <!--aggiungo i campi-->
 
@@ -74,7 +74,7 @@
 
                 <div class="text-center mt-4">
                     <button type="submit" class="btn btn-primary">Modifica</button>
-                    <a href="/admin/tickets/" class="btn btn-danger">Annulla</a>
+                    <a th:href="@{/admin/tickets/}" class="btn btn-danger">Annulla</a>
                 </div>
 
             </form>

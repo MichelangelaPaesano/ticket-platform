@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.ticket_platform.model.Note;
 import com.example.ticket_platform.model.Operator;
 import com.example.ticket_platform.model.Ticket;
 import com.example.ticket_platform.repository.CategoriaRepository;
+import com.example.ticket_platform.repository.NoteRepository;
 import com.example.ticket_platform.repository.OperatorRepository;
 import com.example.ticket_platform.repository.TicketRepository;
 
@@ -42,6 +44,9 @@ public class AdminTicketController {
 
     @Autowired
     private OperatorRepository opRepository;
+
+    @Autowired
+    private NoteRepository noteRepository;
     
     
     //Questo Get Mapping serve per la lettura della lista dei ticket 
@@ -58,6 +63,8 @@ public class AdminTicketController {
         Optional<Ticket> optionalTicket = repository.findById(id);
         if (optionalTicket.isPresent()) {
             model.addAttribute("ticket", optionalTicket.get());
+            model.addAttribute("nota", new Note());
+            model.addAttribute("noteList", noteRepository.findByTicketId(id));
             return "admin/show";
         } else {
             return "redirect:/admin/tickets"; 
@@ -146,10 +153,13 @@ public class AdminTicketController {
         //ci assicuriamo che l'id esista!
         Optional<Ticket> optTicket = repository.findById(id);
         if (optTicket.isPresent()) {
+            if (formTicket.getCreationDate() == null) {
+                formTicket.setCreationDate(LocalDate.now());
+            }
             repository.save(formTicket);
             redirectAttributes.addFlashAttribute("successMessage", "Ticket modificato con successo");  
         }
-        return "redirect:/admin/tickets";
+        return "redirect:/admin/tickets/";
         
     }
 

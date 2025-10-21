@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.example.ticket_platform.model.TicketStatus.ticketStatus;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -29,6 +30,7 @@ public class Ticket {
     @NotBlank(message="La descrizione è obbligatoria")
     private String description;
 
+    @Column(nullable = false, updatable = false)
     private LocalDate creationDate;
     
     @NotNull(message="Lo stato è obbligatorio")

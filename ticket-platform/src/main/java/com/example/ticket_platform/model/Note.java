@@ -2,6 +2,8 @@ package com.example.ticket_platform.model;
 
 import java.time.LocalDate;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,6 +26,7 @@ public class Note {
 
     private String testo;
 
+    @CreationTimestamp
     private LocalDate data;
 
     @ManyToOne
