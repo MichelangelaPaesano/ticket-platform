@@ -14,6 +14,8 @@
 <body>
     <nav th:replace="fragment/navbar :: navbar"></nav>
 
+    <a class="btn btn-primary" th:href="@{/operator/profile}">Profilo</a>
+
     <div class="container mt-4">
         <h2>Ticket assegnati</h2>
         <table class="table table-striped">
@@ -28,7 +30,7 @@
             <tbody>
             <tr th:each="ticket : ${tickets}">
                 <td th:text="${ticket.id}"></td>
-                <td th:text="${ticket.titolo}"></td>
+                <td th:text="${ticket.title}"></td>
                 <td th:text="${ticket.status}"></td>
                 <td><a th:href="@{/operator/tickets/{id}(id=${ticket.id})}">Apri</a></td>
             </tr>

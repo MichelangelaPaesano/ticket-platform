@@ -59,8 +59,11 @@ public class OperatorController {
         }
         Operator operator = opOpt.get();
 
-        Optional<Ticket> tickets = repository.findByOperator(operator); 
+        List<Ticket> tickets = repository.findAllByOperatorId(operator.getId());
+        System.out.println("Ticket per operatore " + operator.getName() + ": " + tickets.size());
+
         model.addAttribute("tickets", tickets);
+
         return "operator/tickets";
     }
 
@@ -190,7 +193,7 @@ public class OperatorController {
 
         // Controllo: se vuole diventare "non disponibile"
         if (!operatorForm.isDisponibile()) {
-            List<Ticket> tickets = repository.findAllByOperator(operator);
+            List<Ticket> tickets = repository.findByOperator(operator);
             for (Ticket t : tickets) {
                 if (t.getStatus() == ticketStatus.DA_FARE || t.getStatus() == ticketStatus.IN_CORSO) {
                     model.addAttribute("operator", operator);

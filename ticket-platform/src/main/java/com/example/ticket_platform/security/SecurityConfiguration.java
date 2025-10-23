@@ -5,8 +5,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -18,10 +16,9 @@ public class SecurityConfiguration {
 
         http
             .authorizeHttpRequests()
-                .requestMatchers("/admin/tickets", "/admin/tickets/edit/**").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.POST, "/admin/tickets/**").hasRole("ADMIN")
-                .requestMatchers("/admin/tickets/**").hasAnyRole("USER", "ADMIN")
-                .requestMatchers("/**").permitAll()
+                .requestMatchers("/admin/tickets", "/admin/tickets/edit/**").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/admin/tickets/**").hasAuthority("ADMIN")
+                .requestMatchers("/operator/tickets","/operator/tickets/**").hasAuthority("ROLE_OPERATOR")
                 .anyRequest().authenticated()
             .and()
             .formLogin()
@@ -30,7 +27,7 @@ public class SecurityConfiguration {
             .and()
             .logout()
                 .logoutUrl("/logout")
-                .logoutSuccessUrl("/login?logout")
+                .logoutSuccessUrl("/login")
                 .permitAll()
             .and()
             .csrf().disable();
