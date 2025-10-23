@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Profilo Operatore</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+</head>
+<body>
+<div class="container mt-4">
+    <h2>Profilo Operatore</h2>
+
+    <form th:action="@{/operator/tickets/profile/update}" th:object="${operator}" method="post">
+        <div class="mb-3">
+            <label for="name" class="form-label">Nome</label>
+            <input type="text" class="form-control" th:field="*{name}" />
+        </div>
+
+        <div class="form-check mb-3">
+            <input type="checkbox" class="form-check-input" th:field="*{disponibile}" id="disponibile"/>
+            <label class="form-check-label" for="disponibile">Disponibile</label>
+        </div>
+
+        <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+
+        <button type="submit" class="btn btn-primary">Aggiorna</button>
+    </form>
+</div>
+</body>
+</html>

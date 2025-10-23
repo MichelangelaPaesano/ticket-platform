@@ -114,7 +114,7 @@ public class AdminTicketController {
             }
         }
 
-            // 3. Passo al model la lista filtrata
+            //Passo al model la lista filtrata
             model.addAttribute("operatori", operatoriDisponibili);
 
             return "admin/create";
@@ -171,12 +171,4 @@ public class AdminTicketController {
         
         return "redirect:/admin/tickets";
     }
-
-
-
-    
-    
-    
-    
-    
 }

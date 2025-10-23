@@ -9,6 +9,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -31,6 +33,10 @@ public class Operator {
     @JsonIgnore
     private List<Ticket> tickets;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     public Integer getId () {
         return id;
     }
@@ -47,7 +53,7 @@ public class Operator {
         this.name = name;
     }
 
-    public Boolean isDisponibile () {
+    public boolean isDisponibile () {
         return disponibile;
     }
 
@@ -61,6 +67,14 @@ public class Operator {
 
     public void setTickets (List<Ticket> tickets) {
         this.tickets = tickets;
+    }
+
+    public User getUser () {
+        return user;
+    }
+
+    public void setUser (User user) {
+        this.user = user;
     }
 
     //scrivo un metodo che mi permetta di rendere dinamico il flag per operatore

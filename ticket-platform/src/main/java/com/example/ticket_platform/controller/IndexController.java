@@ -6,12 +6,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @Controller
-@RequestMapping("/")
+@RequestMapping
 public class IndexController {
 
     @GetMapping("/")
     public String index() {
-        return "redirect:/admin/tickets";
+        return "redirect:/admin/tickets/";
     }
     
 
