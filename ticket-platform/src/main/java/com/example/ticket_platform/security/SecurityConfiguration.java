@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -16,9 +17,9 @@ public class SecurityConfiguration {
 
         http
             .authorizeHttpRequests()
-                .requestMatchers("/admin/tickets", "/admin/tickets/edit/**").hasAuthority("ADMIN")
+                .requestMatchers("/admin/**").hasAuthority("ADMIN")
+                .requestMatchers("/operator/**","/operator/tickets/**").hasAuthority("OPERATOR")
                 .requestMatchers(HttpMethod.POST, "/admin/tickets/**").hasAuthority("ADMIN")
-                .requestMatchers("/operator/tickets","/operator/tickets/**").hasAuthority("ROLE_OPERATOR")
                 .anyRequest().authenticated()
             .and()
             .formLogin()
@@ -31,6 +32,7 @@ public class SecurityConfiguration {
                 .permitAll()
             .and()
             .csrf().disable();
+            
 
         return http.build();
     }
@@ -42,7 +44,7 @@ public class SecurityConfiguration {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return org.springframework.security.crypto.factory.PasswordEncoderFactories.createDelegatingPasswordEncoder();
+        return NoOpPasswordEncoder.getInstance();
     }
 
 
