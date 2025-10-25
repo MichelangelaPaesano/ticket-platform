@@ -92,7 +92,7 @@ public class OperatorController {
             return "error/403";
         }
 
-        model.addAttribute("notaForm", new Note());
+        model.addAttribute("notaForm", new NotaForm());
         model.addAttribute("ticket", ticket);
         
         return "operator/ticket_detail";
@@ -152,6 +152,8 @@ public class OperatorController {
             noteRepository.save(nota);
         }
 
+        System.out.println("Redirect!");
+        
         return "redirect:/operator/tickets/" + id;
     }
 
@@ -208,7 +210,7 @@ public class OperatorController {
         operator.setDisponibile(operatorForm.isDisponibile());
         opRepository.save(operator);
 
-        return "redirect:/operator/profile";
+        return "redirect:/operator/tickets/";
     }
 
 

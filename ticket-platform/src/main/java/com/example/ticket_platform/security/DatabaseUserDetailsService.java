@@ -17,7 +17,7 @@ public class DatabaseUserDetailsService implements UserDetailsService {
     @Autowired
     private userRepository userRepo;
 
-    @Override
+    /*@Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> userOpt = userRepo.findByUsername(username);
         if (userOpt.isPresent()) {
@@ -25,6 +25,24 @@ public class DatabaseUserDetailsService implements UserDetailsService {
         } else {
             throw new UsernameNotFoundException("Username non trovato");
         }
+    }/* */
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    System.out.println("Tentativo login: " + username); // debug: username inserito
+
+    Optional<User> userOpt = userRepo.findByUsername(username);
+    if (userOpt.isPresent()) {
+        User user = userOpt.get();
+        System.out.println("Utente trovato: " + user.getUsername()); // debug: username DB
+        System.out.println("Password salvata: " + user.getPassword()); // debug: password DB
+        System.out.println("Ruoli: " + user.getRole()); // debug: ruoli nel DB
+        return new DatabaseUserDetails(user);
+    } else {
+        System.out.println("Utente non trovato"); // debug: username non trovato
+        throw new UsernameNotFoundException("Username non trovato");
     }
+}
+
 
 }

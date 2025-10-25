@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.ticket_platform.model.Note;
@@ -51,9 +52,15 @@ public class AdminTicketController {
     
     //Questo Get Mapping serve per la lettura della lista dei ticket 
     @GetMapping("/")
-    public String index (Model model) {
-        List<Ticket> mostraLista = repository.findAll();
-        model.addAttribute("ticket", mostraLista);
+    public String index (Model model,  @RequestParam(name="keyword", required=false) String keyword) {
+        List<Ticket> ticket = null;
+        if (keyword == null || keyword.isBlank()) {
+            ticket = repository.findAll();
+        } else {
+            ticket = repository.findByTitleContainingIgnoreCase(keyword);
+        }
+        
+        model.addAttribute("ticket", ticket);
         return "admin/tickets";
     }
     
@@ -169,6 +176,6 @@ public class AdminTicketController {
     public String delete (@PathVariable("id") Integer id) {
         repository.deleteById(id);
         
-        return "redirect:/admin/tickets";
+        return "redirect:/admin/tickets/";
     }
 }

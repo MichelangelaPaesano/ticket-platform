@@ -24,6 +24,8 @@ public class Note {
     @NotBlank
     private String autore;
 
+    @NotNull
+    @NotBlank
     private String testo;
 
     @CreationTimestamp

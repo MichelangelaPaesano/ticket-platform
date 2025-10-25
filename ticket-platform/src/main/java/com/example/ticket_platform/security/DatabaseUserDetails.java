@@ -26,7 +26,20 @@ public class DatabaseUserDetails implements UserDetails {
             SimpleGrantedAuthority sGA = new SimpleGrantedAuthority(role.getName());
             this.authorities.add(sGA);
         }
+
+    
+        System.out.println("DEBUG — Ruoli trovati per " + username + ":");
+            for (Role role : user.getRole()) {
+            System.out.println(" - Nome ruolo: [" + role.getName() + "]");
+            }
     }
+
+
+    
+       
+
+    
+   
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

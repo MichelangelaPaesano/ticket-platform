@@ -1,9 +1,11 @@
 package com.example.ticket_platform.model;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.example.ticket_platform.model.TicketStatus.ticketStatus;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -49,8 +51,8 @@ public class Ticket {
     @NotNull
     private Operator operator;
 
-    @OneToMany(mappedBy = "ticket")
-    private List<Note> note;
+    @OneToMany(mappedBy = "ticket", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Note> note = new ArrayList<>();
 
     public Integer getId() {
         return id;

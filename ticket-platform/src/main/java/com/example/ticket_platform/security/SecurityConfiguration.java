@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -15,8 +16,7 @@ public class SecurityConfiguration {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        http
-            .authorizeHttpRequests()
+        http.authorizeHttpRequests()
                 .requestMatchers("/admin/**").hasAuthority("ADMIN")
                 .requestMatchers("/operator/**","/operator/tickets/**").hasAuthority("OPERATOR")
                 .requestMatchers(HttpMethod.POST, "/admin/tickets/**").hasAuthority("ADMIN")
@@ -25,8 +25,7 @@ public class SecurityConfiguration {
             .formLogin()
                 .defaultSuccessUrl("/", true)
                 .permitAll()
-            .and()
-            .logout()
+            .and().logout()
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/login")
                 .permitAll()
@@ -44,7 +43,7 @@ public class SecurityConfiguration {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
 
