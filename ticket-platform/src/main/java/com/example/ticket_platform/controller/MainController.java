@@ -20,7 +20,6 @@ public class MainController {
         model.addAttribute("username", auth.getName());
         model.addAttribute("authorities", auth.getAuthorities());
 
-        // Puoi avere una view chiamata 'index.html' o solo un messaggio di test
         return "index"; 
     }
 }

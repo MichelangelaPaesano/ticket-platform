@@ -18,6 +18,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Ticket {
@@ -27,6 +28,8 @@ public class Ticket {
     private Integer id;
 
     @NotBlank(message="Il titolo è obbligatorio")
+    @NotNull
+    @Size (max = 50, message="Il titolo ha una lunghezza massima di 50 caratteri")
     private String title;
 
     @NotBlank(message="La descrizione è obbligatoria")
