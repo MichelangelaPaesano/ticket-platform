@@ -10,11 +10,11 @@ public class MainController {
 
     @GetMapping("/")
     public String home(Authentication auth, Model model) {
-        // Stampa in console tutte le authority dell'utente
-        System.out.println("Utente loggato: " + auth.getName());
+        // serve per stampare in console tutte le authority dell'utente
+        /*System.out.println("Utente loggato: " + auth.getName());
         auth.getAuthorities().forEach(a -> 
             System.out.println("Authority reale: [" + a.getAuthority() + "]")
-        );
+        );*/
 
         // Passa nome e ruoli alla view se vuoi visualizzarli
         model.addAttribute("username", auth.getName());

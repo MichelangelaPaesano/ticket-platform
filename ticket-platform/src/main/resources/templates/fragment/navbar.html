@@ -8,19 +8,7 @@
 
 <nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;" data-bs-theme="light">
   <div class="container-fluid">
-
-    <a class="navbar-brand" href="#">TICKET PLATFORM</a>
-
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
-
-      <div class="d-flex">
+    <div class="d-flex">
         <form th:action="@{/admin/tickets/}" method="get" class="d-flex me-2" role="search">
           <input class="form-control me-2" type="search" placeholder="Cerca ticket" aria-label="Search" name="keyword" th:value="${keyword}"/>
           <button class="btn btn-outline-success" type="submit">Cerca</button>
@@ -31,9 +19,6 @@
           <button class="btn btn-danger btn-sm">Logout</button>
         </form>
       </div>
-      
-    </div>
-    
   </div>
 
 
