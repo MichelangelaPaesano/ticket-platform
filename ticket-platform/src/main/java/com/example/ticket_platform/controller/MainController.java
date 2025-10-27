@@ -16,7 +16,7 @@ public class MainController {
             System.out.println("Authority reale: [" + a.getAuthority() + "]")
         );*/
 
-        // Passa nome e ruoli alla view se vuoi visualizzarli
+        // Invio i dati a thymeleaf
         model.addAttribute("username", auth.getName());
         model.addAttribute("authorities", auth.getAuthorities());
 
